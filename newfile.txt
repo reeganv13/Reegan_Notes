@@ -1,2 +1,186 @@
+package miniproject2;
+
+import java.util.*;
+
+public class CameraRentalApp {
+    void display() {
+        System.out.println("1. My Camera");
+        System.out.println("2. Rent a Camera");
+        System.out.println("3. View all Camera");
+        System.out.println("4. My Wallet");
+        System.out.println("5. Exit");
+        Scanner sc = new Scanner(System.in);
+        int Choice = sc.nextInt();
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Product1> productSet = new ArrayList<>();
+
+        productSet.add(new Product1(1, "Samsung", "DS123", 500.0, "Available"));
+        productSet.add(new Product1(2, "Sony", "HD214", 500.0, "Available"));
+        productSet.add(new Product1(3, "Panasonic", "XC", 500.0, "Available"));
+        productSet.add(new Product1(4, "Canon", "XLR", 500.0, "Available"));
+        productSet.add(new Product1(5, "Fujitsu", "J5", 500.0, "Available"));
+        productSet.add(new Product1(6, "Sony", "HD226", 500.0, "Available"));
+
+        System.out.println("Welcome to camera rental App");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please login to continue -");
+        System.out.print("UserName: ");
+        String User = sc.nextLine();
+        System.out.print("Password: ");
+        String Password = sc.nextLine();
+
+        if (User.equals("admin") && Password.equals("admin123")) {
+            while (true) {
+                System.out.println("1. My Camera");
+                System.out.println("2. Rent a Camera");
+                System.out.println("3. View all Camera");
+                System.out.println("4. My Wallet");
+                System.out.println("5. Exit");
+
+                int Balance = 600;
+                int Choice = sc.nextInt();
+                switch (Choice) {
+                    case 1: {
+                        boolean backToPreviousMenu = false;
+                        while (!backToPreviousMenu) {
+                            System.out.println("1. Add");
+                            System.out.println("2. Remove");
+                            System.out.println("3. View My Cameras");
+                            System.out.println("4. Go to Previous Menu");
+
+                            int AddChoice = sc.nextInt();
+                            switch (AddChoice) {
+                                case 1: {
+                                    System.out.print("Enter the Camera Id: ");
+                                    int Id = sc.nextInt();
+                                    System.out.print("Enter the Camera Brand: ");
+                                    String Camera = sc.next();
+                                    System.out.print("Enter the Model: ");
+                                    String Model = sc.next();
+                                    System.out.print("Enter the Per Day Price (INR): ");
+                                    double Price = sc.nextDouble();
+                                    System.out.print("Enter availability: ");
+                                    String Availability = sc.next();
+                                    Product1 product = new Product1(Id, Camera, Model, Price, Availability);
+                                    productSet.add(product);
+                                    System.out.println("Your Camera has been added Successfully");
+                                    productSet.forEach(System.out::println);
+                                    break;
+                                }
+                                case 2: {
+                                    System.out.print("Enter the Camera ID to Remove: ");
+                                    int removeId = sc.nextInt();
+                                    if (productSet.removeIf(p -> p.getId() == removeId)) {
+                                        System.out.println("Camera Successfully Removed from the list.");
+                                    } else {
+                                        System.out.println("Product not found.");
+                                    }
+                                    productSet.forEach(System.out::println);
+                                    break;
+                                }
+                                case 3: {
+                                    productSet.forEach(System.out::println);
+                                    break;
+                                }
+                                case 4: {
+                                    backToPreviousMenu = true;
+                                    break;
+                                }
+                                default: {
+                                    System.out.println("Invalid choice, please try again.");
+                                }
+                            }
+                        }
+                        break;
+                    }
+                    case 2: {
+                        productSet.forEach(System.out::println);
+                        System.out.print("Enter the Camera ID you want to rent: ");
+                        int Id = sc.nextInt() - 1;
+                        Product1 selectedCamera = productSet.get(Id);
+                        String brand = selectedCamera.getProductName();
+                        String model = selectedCamera.getModel();
+
+                        double rentalAmount = selectedCamera.getPrice();
+                        if (Balance > rentalAmount) {
+                            System.out.println("Your Transaction for Camera - " + brand + " " + model + " with rent INR." + rentalAmount + " has Successfully Completed. Balance Amount: " + (Balance - rentalAmount));
+                        } else {
+                            System.out.println("Error: Transaction failed due to insufficient balance. Please deposit the amount to your wallet");
+                        }
+                        break;
+                    }
+                    case 3: {
+                        productSet.forEach(System.out::println);
+                        break;
+                    }
+                    case 4: {
+                        System.out.println("Your current Wallet Balance is: " + Balance);
+                        System.out.println("Do You Want to Deposit more amount to your wallet? (1.Yes 2.No)");
+                        int Value = sc.nextInt();
+                        if (Value == 1) {
+                            System.out.print("Enter the Amount (INR): ");
+                            int Amount = sc.nextInt();
+                            int TotalAmount = Balance + Amount;
+                            System.out.println("Your Wallet Balance Updated Successfully. Current Wallet Balance: INR " + TotalAmount);
+                        }
+                        break;
+                    }
+                    case 5: {
+                        System.out.println("Exited Successfully");
+                        return;
+                    }
+                    default: {
+                        System.out.println("Invalid choice, please try again.");
+                    }
+                }
+            }
+        } else {
+            System.out.print("Please enter a valid Username & Password");
+        }
+    }
+}
+
+class Product1 {
+    private int id;
+    private String productName;
+    private String model;
+    private double price;
+    private String availability;
+
+    public Product1(int id, String productName, String model, double price, String availability) {
+        this.id = id;
+        this.productName = productName;
+        this.model = model;
+        this.price = price;
+        this.availability = availability;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    @Override
+    public String toString() {
+        return "Product1 [id=" + id + ", productName=" + productName + ", model=" + model + ", price=" + price + ", availability=" + availability + "]";
+    }
+}
 this is a new file
 
