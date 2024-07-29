@@ -1,1 +1,167 @@
+package miniproject2;
+import java.util.*;
+
+import day7.Product;
+public class CameraRentalApp {
+	void display() {
+		System.out.println("1. My Camera");
+		System.out.println("2. Rent a Camera");
+		System.out.println("3. View all Camera");
+		System.out.println("4. My Wallet");
+		System.out.println("5. Exit");
+		Scanner sc=new Scanner(System.in);
+		int Choice=sc.nextInt();
+		
+	}
+public static void main(String[] args) {
+	
+	 ArrayList<Product1> productSet = new ArrayList<>();
+		
+     productSet.add(new Product1(1, "Samsung","DS123",500.0,"Available"));
+     productSet.add(new Product1(2, "Sony","HD214",500.0,"Available"));
+     productSet.add(new Product1(3, "Panasonic","XC",500.0,"Available"));
+     productSet.add(new Product1(4, "Canon","XLR",500.0,"Available"));
+     productSet.add(new Product1(5, "Fujitsu","J5",500.0,"Available"));
+     productSet.add(new Product1(6, "Sony","HD226",500.0,"Available"));
+     
+
+	System.out.println("Welcome to camera rental App");
+	Scanner sc=new Scanner(System.in);
+	System.out.println("Please login to continue -");
+	System.out.println("UserName - ");
+	String User=sc.nextLine();
+	System.out.println("Password - ");
+	String Password=sc.nextLine();
+	
+	
+	if(User.equals("admin") && Password.equals("admin123")) {
+		
+		System.out.println("1. My Camera");
+		System.out.println("2. Rent a Camera");
+		System.out.println("3. View all Camera");
+		System.out.println("4. My Wallet");
+		System.out.println("5. Exit");
+		
+	
+}else {
+	System.out.print("Please enter valid Username & Password");
+}
+		
+	
+	int Balance=600;
+	int Choice=sc.nextInt();
+	switch(Choice) {
+	case 1:
+		{
+			System.out.println("1. Add");
+			System.out.println("2. Remove");
+			System.out.println("3. View My Cameras");
+			System.out.println("4. Go to Previous Menu");
+		
+		break;
+		
+		}
+
+	case 2:
+	{
+		 productSet.forEach(System.out::println);
+		System.out.println("Enter the Camera ID u want to rent - " );
+		int Id=sc.nextInt()-1;
+		Product1 selectedCamera=productSet.get(Id);
+		String brand=selectedCamera.getProductName();
+		String model=selectedCamera.model();
+		
+		double rentalAmount=selectedCamera.price();
+		if(Balance>rentalAmount) {
+			
+			System.out.println("Your Transaction for Camera - "+brand + model+"with rent INR."+ (rentalAmount)+" has Succesfully Completed.." +"...Balance Amount:"+(Balance-rentalAmount));
+			
+		}else {
+			System.out.println("Error : Transaction failed due to insufficient balance . Please deposit the amount to your wallet");
+		}
+		break;
+	}
+	case 3:{
+		 productSet.forEach(System.out::println);
+		break;
+	}
+	case 4:
+	{
+		System.out.println("Your current Wallet Balance is - "+Balance);
+		System.out.println("Do You Want to Deposit more amount to your wallet?(1.Yes 2.No)");
+		int Value=sc.nextInt();
+		if(Value==1) {
+		
+			System.out.println("Enter the Amount (INR) - ");
+			int Amount=sc.nextInt();
+			int TotalAmount=Balance+Amount;
+			System.out.println("Your Wallet Balance Updated Successfully. Current Wallet Balance -  INR."+TotalAmount);
+		}
+		break;
+	}
+	case 5:
+	{
+		System.out.println("Exited Succesfully");
+		break;
+	}
+	
+	}
+	
+		int  AddChoice=sc.nextInt();
+	
+	switch(AddChoice) {
+	case 1:
+	{
+		System.out.println("Enter the Camera Id - ");
+		int Id=sc.nextInt();
+		System.out.println("Enter the Camera Brand - ");
+		String Camera=sc.next();
+		System.out.println("Enter the Model - ");
+		String Model=sc.next();
+		
+		System.out.println("Enter the Per Day Price (INR) - ");
+		double Price=sc.nextDouble();
+		System.out.println("Enter availabity - ");
+		String Availability=sc.next();
+		Product1 product=new Product1(Id,Camera,Model,Price,Availability);
+		productSet.add(product);
+		System.out.println("Your Camera has been added Successfully");
+	 productSet.forEach(System.out::println);
+		break;
+	}
+	case 2:
+	{
+		System.out.println("Enter the Camera ID to Remove - ");
+		 int removeId = sc.nextInt();
+	        Product1 removeProduct = new Product1(removeId,null, null, removeId, null); 
+	        if (productSet.remove(removeProduct)) {
+	            System.out.println("Camera Successfully Removed from the list..");
+	            productSet.forEach(System.out::println);
+	            break;
+	        } else {
+	            System.out.println("Product not found.");
+	            break;
+	        }
+	       
+		
+	}
+	case 3:
+	{
+		 productSet.forEach(System.out::println);
+			break;
+	}
+	case 4:{
+     
+      break;
+		}
+	
+	}
+	}
+	
+	
+}
+	
+
+
+
 this is first file
